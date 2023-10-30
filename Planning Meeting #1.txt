@@ -1,0 +1,25 @@
+PROJECT PLANNING
+
+Brainstorming Ideas
+-Train/Plane Ticket Booking System
+    - Maybe show a map of the itinerary
+	- Weighted shortest path
+	- Two pages: customer and admin ( admin can change discount amount, customer can only book tickets)
+	- Price ranges depending on hour of travel
+	- Choo Choo
+	- Customer inputs: Select Date, No. of tickets, type of tickets
+	- Output : What trains to take
+	- Customer: Selects Route
+	- Output : Shows price
+	
+	Classes needed:
+	Train Stations 
+	Trains
+	Tickets (Discounts) 
+	Order
+	Route
+	Map
+	Two Menus
+	
+	Actors: Customer, Admin
+	Actions: Search Connection, Choose Route, Buy Ticket, Change Discount
