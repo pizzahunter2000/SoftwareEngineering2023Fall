@@ -8,6 +8,7 @@ public class Connection {
     private Train train;
     private Station station;
     private Station nextStation;
+    private double distance;
     private Date departureDate;
     private Date arrivalDate;
 
@@ -19,6 +20,7 @@ public class Connection {
         this.nextStation = nextStation;
         this.departureDate = departureDate;
         this.arrivalDate = arrivalDate;
+        this.distance = calculateDistance();
     }
 
     public int getId() {
@@ -67,5 +69,17 @@ public class Connection {
 
     public void setArrivalDate(Date arrivalDate) {
         this.arrivalDate = arrivalDate;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double calculateDistance(){
+        return 0;
     }
 }

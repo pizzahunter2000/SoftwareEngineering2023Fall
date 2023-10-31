@@ -30,5 +30,8 @@ public class Main {
         Graph graph = new Graph(connections);
         System.out.println("Testing translation to graph...");
         System.out.println(graph);
+
+        System.out.println("Testing shortest path algorithm...");
+        graph.shortestPath(stationA);
     }
 }
