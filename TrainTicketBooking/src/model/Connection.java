@@ -80,6 +80,9 @@ public class Connection {
     }
 
     public double calculateDistance(){
-        return 0;
+        return Math.sqrt(
+                Math.pow(station.getX() - nextStation.getX(), 2.0)
+                + Math.pow(station.getY() - nextStation.getY(), 2.0)
+        );
     }
 }

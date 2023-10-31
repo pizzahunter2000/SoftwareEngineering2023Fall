@@ -89,10 +89,11 @@ public class Graph {
             Pair top = queue.poll();
             if(adjList.containsKey(top.getStation())){
                 for(Pair pair : adjList.get(top.getStation())){
+                    // just works, simply lovely
                     if(spanningTree.get(pair.getStation()) > spanningTree.get(top.getStation())
-                            + top.getDistance()){
+                            + pair.getDistance()){
                         spanningTree.replace(pair.getStation(), spanningTree.get(top.getStation())
-                                + top.getDistance());
+                                + pair.getDistance());
                         queue.add(new Pair(spanningTree.get(pair.getStation()),
                                 pair.getStation()));
                     }
