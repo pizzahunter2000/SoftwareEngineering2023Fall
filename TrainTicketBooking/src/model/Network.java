@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Network {
     private int nrOfStations;
-    private List<List<Connection>> connections;
+    private List<Connection> connections;
 
-    public Network(int nrOfStations, List<List<Connection>> connections) {
+    public Network(int nrOfStations, List<Connection> connections) {
         this.nrOfStations = nrOfStations;
         this.connections = connections;
     }
@@ -19,11 +19,11 @@ public class Network {
         this.nrOfStations = nrOfStations;
     }
 
-    public List<List<Connection>> getConnections() {
+    public List<Connection> getConnections() {
         return connections;
     }
 
-    public void setConnections(List<List<Connection>> connections) {
+    public void setConnections(List<Connection> connections) {
         this.connections = connections;
     }
 }
