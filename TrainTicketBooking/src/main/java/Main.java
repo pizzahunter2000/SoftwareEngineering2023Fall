@@ -33,5 +33,12 @@ public class Main {
 
         System.out.println("Testing shortest path algorithm...");
         graph.shortestPath(stationA);
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new LoginMenu().setVisible(true);
+            }
+        });
     }
 }
