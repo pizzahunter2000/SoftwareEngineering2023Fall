@@ -1,7 +1,4 @@
-import model.Connection;
-import model.Graph;
-import model.Station;
-import model.Train;
+import model.*;
 import view.LoginMenu;
 
 import java.util.ArrayList;
@@ -14,15 +11,9 @@ public class Main {
         List<Connection> connections = new ArrayList<>();
         Train train1 = new Train();
         Train train2 = new Train();
-        List<Double> coordA = new ArrayList<>();
-        coordA.add(1.0);
-        coordA.add(2.0);
-        List<Double> coordB = new ArrayList<>();
-        coordB.add(3.0);
-        coordB.add(2.0);
-        List<Double> coordC = new ArrayList<>();
-        coordC.add(3.0);
-        coordC.add(1.0);
+        Point coordA = new Point(1.0, 2.0);
+        Point coordB = new Point(4.0, 2.0);
+        Point coordC = new Point(4.0, 6.0);
         Station stationA = new Station(coordA, "A");
         stationList.add(stationA);
         Station stationB = new Station(coordB, "B");

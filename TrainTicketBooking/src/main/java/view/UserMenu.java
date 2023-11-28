@@ -1,5 +1,6 @@
 package view;
 import model.Connection;
+import model.Point;
 import model.Station;
 import model.Train;
 
@@ -18,15 +19,9 @@ public class UserMenu extends JFrame{
         java.util.List<Connection> connections = new ArrayList<>();
         Train train1 = new Train();
         Train train2 = new Train();
-        java.util.List<Double> coordA = new ArrayList<>();
-        coordA.add(1.0);
-        coordA.add(2.0);
-        java.util.List<Double> coordB = new ArrayList<>();
-        coordB.add(3.0);
-        coordB.add(2.0);
-        List<Double> coordC = new ArrayList<>();
-        coordC.add(3.0);
-        coordC.add(1.0);
+        Point coordA = new model.Point(1.0, 2.0);
+        Point coordB = new model.Point(4.0, 2.0);
+        Point coordC = new Point(4.0, 6.0);
         Station stationA = new Station(coordA, "A");
         stationList.add(stationA);
         Station stationB = new Station(coordB, "B");

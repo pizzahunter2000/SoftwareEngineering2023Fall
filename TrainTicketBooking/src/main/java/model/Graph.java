@@ -67,6 +67,34 @@ public class Graph {
         return stations;
     }
 
+    /**
+     * Used by the admin to add a new connection.
+     * @param connection - give connection to add to the network
+     */
+    public void addConnection(Connection connection) {
+        if(adjList == null) {
+            adjList = new HashMap<>();
+            List<Pair> stationsPair = new ArrayList<>();
+            stationsPair.add(new Pair(connection.calculateDistance(), connection.getNextStation()));
+            adjList.put(connection.getStation(), stationsPair);
+            return;
+        }
+        if(adjList.isEmpty()) {
+            List<Pair> stationsPair = new ArrayList<>();
+            stationsPair.add(new Pair(connection.calculateDistance(), connection.getNextStation()));
+            adjList.put(connection.getStation(), stationsPair);
+            return;
+        }
+        if(adjList.get(connection.getStation()) == null) {
+            List<Pair> stationsPair = new ArrayList<>();
+            stationsPair.add(new Pair(connection.calculateDistance(), connection.getNextStation()));
+            adjList.put(connection.getStation(), stationsPair);
+            return;
+        }
+        adjList.get(connection.getStation()).add(new Pair(connection.calculateDistance(),
+                connection.getNextStation()));
+    }
+
     // returns a map of station and a distance from the source
     // using the Dijkstra shortest path algorithm, where the
     // stations are the node and the connections are the edges.
