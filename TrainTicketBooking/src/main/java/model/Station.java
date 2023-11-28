@@ -5,10 +5,10 @@ import java.util.List;
 public class Station {
     private static int MAX_ID = 0;
     private int id;
-    private List<Double> coordinates;
+    private Point coordinates;
     private String name;
 
-    public Station(List<Double> coordinates, String name) {
+    public Station(Point coordinates, String name) {
         this.id = ++MAX_ID;
         this.coordinates = coordinates;
         this.name = name;
@@ -22,11 +22,11 @@ public class Station {
         this.id = id;
     }
 
-    public List<Double> getCoordinates() {
+    public Point getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(List<Double> coordinates) {
+    public void setCoordinates(Point coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -39,10 +39,10 @@ public class Station {
     }
 
     public double getX(){
-        return coordinates.get(0);
+        return coordinates.getX();
     }
 
     public double getY(){
-        return coordinates.get(1);
+        return coordinates.getY();
     }
 }
