@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        List < Station > stationList = new ArrayList<>();
         List<Connection> connections = new ArrayList<>();
         Train train1 = new Train();
         Train train2 = new Train();
@@ -23,8 +24,11 @@ public class Main {
         coordC.add(3.0);
         coordC.add(1.0);
         Station stationA = new Station(coordA, "A");
+        stationList.add(stationA);
         Station stationB = new Station(coordB, "B");
+        stationList.add(stationB);
         Station stationC = new Station(coordC, "C");
+        stationList.add(stationC);
         connections.add(new Connection(train1, stationA, stationB, new Date(), new Date()));
         connections.add(new Connection(train1, stationB, stationC, new Date(), new Date()));
         connections.add(new Connection(train2, stationA, stationC, new Date(), new Date()));

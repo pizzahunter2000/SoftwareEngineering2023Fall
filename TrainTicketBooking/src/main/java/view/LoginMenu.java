@@ -7,56 +7,76 @@ import java.awt.event.ActionListener;
 
 public class LoginMenu extends JFrame {
 
-    private JButton userButton, adminButton;
-    private JTextField passwordField;
+    private JButton userButton;
+    private JButton adminButton;
+    private JPasswordField passwordField1;
+    private JTextField passwordTextField;
+    private JLabel titleLabel ;
 
-    public LoginMenu() {
-        // Set up the frame
-        setTitle("Login Menu");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 200);
-        setLocationRelativeTo(null);
+    private JPanel mainPanel;
 
-        // Create components
-        JLabel titleLabel = new JLabel("Login Menu", SwingConstants.CENTER);
-        userButton = new JButton("User");
-        adminButton = new JButton("Admin");
-        passwordField = new JTextField();
+    public LoginMenu () {
+        setTitle ("Login Menu");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(700,400);
+        setVisible(true);
 
-        // Set layout
-        setLayout(new BorderLayout());
+        mainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.PAGE_START;
 
-        // Add components to the frame
-        add(titleLabel, BorderLayout.NORTH);
-        add(userButton, BorderLayout.WEST);
-        add(adminButton, BorderLayout.EAST);
-        add(passwordField, BorderLayout.SOUTH);
+        JLabel titleLabel = new JLabel("Login Menu");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        mainPanel.add(titleLabel, gbc);
 
-        // Add action listeners to buttons
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(10, 10, 10, 10); // Add spacing around buttons
+
+        JButton userButton = new JButton("User");
         userButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                login("user");
+                // Close the current window
+                dispose();
+                // Create a new UserMenu window
+                UserMenu userWindow = new UserMenu();
             }
         });
+        mainPanel.add(userButton, gbc);
 
+        gbc.gridx = 1;
+        JButton adminButton = new JButton("Admin");
         adminButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                login("admin");
+                // Prompt for password
+                String password = JOptionPane.showInputDialog(LoginMenu.this, "Enter Admin Password:");
+
+                // Check if the password is "admin"
+                if (password != null && password.equals("admin")) {
+                    // Close the current window
+                    dispose();
+                    // Create a new AdminMenu window
+                    AdminMenu adminWindow = new AdminMenu();
+                } else {
+                    // Display an error message
+                    JOptionPane.showMessageDialog(LoginMenu.this, "Incorrect Password", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-    }
+        mainPanel.add(adminButton, gbc);
 
-    private void login(String userType) {
-        String enteredPassword = passwordField.getText();
-        String correctPassword = "admin";
 
-        if (enteredPassword.equals(correctPassword)) {
-            JOptionPane.showMessageDialog(this, "Login successful as " + userType);
-        } else {
-            JOptionPane.showMessageDialog(this, "Incorrect password. Please try again.");
-        }
+
+        this.getContentPane().add(mainPanel);
+        this.setSize(400, 300);
+        this.setLocationRelativeTo(null); // Center the frame
+        this.setVisible(true);
     }
 
 }
