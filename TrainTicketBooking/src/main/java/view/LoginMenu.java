@@ -1,5 +1,7 @@
 package view;
 
+import model.Graph;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +17,10 @@ public class LoginMenu extends JFrame {
 
     private JPanel mainPanel;
 
-    public LoginMenu () {
+    private Graph graph;
+
+    public LoginMenu (Graph graph) {
+        this.graph=graph;
         setTitle ("Login Menu");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(700,400);
@@ -44,7 +49,7 @@ public class LoginMenu extends JFrame {
                 // Close the current window
                 dispose();
                 // Create a new UserMenu window
-                UserMenu userWindow = new UserMenu();
+                UserMenu userWindow = new UserMenu(graph);
             }
         });
         mainPanel.add(userButton, gbc);
@@ -62,7 +67,7 @@ public class LoginMenu extends JFrame {
                     // Close the current window
                     dispose();
                     // Create a new AdminMenu window
-                    AdminMenu adminWindow = new AdminMenu();
+                    AdminMenu adminWindow = new AdminMenu(graph);
                 } else {
                     // Display an error message
                     JOptionPane.showMessageDialog(LoginMenu.this, "Incorrect Password", "Error", JOptionPane.ERROR_MESSAGE);

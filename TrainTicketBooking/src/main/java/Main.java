@@ -1,4 +1,5 @@
 import model.*;
+import view.GridMap;
 import view.LoginMenu;
 
 import java.util.ArrayList;
@@ -11,14 +12,14 @@ public class Main {
         List<Connection> connections = new ArrayList<>();
         Train train1 = new Train();
         Train train2 = new Train();
-        Point coordA = new Point(1.0, 2.0);
-        Point coordB = new Point(4.0, 2.0);
-        Point coordC = new Point(4.0, 6.0);
-        Station stationA = new Station(coordA, "A");
+        Point pA = new Point(1.0,2.0);
+        Point pB = new Point(3.0,2.0);
+        Point pC = new Point(3.0,1.0);
+        Station stationA = new Station(pA, "A");
         stationList.add(stationA);
-        Station stationB = new Station(coordB, "B");
+        Station stationB = new Station(pB, "B");
         stationList.add(stationB);
-        Station stationC = new Station(coordC, "C");
+        Station stationC = new Station(pC, "C");
         stationList.add(stationC);
         connections.add(new Connection(train1, stationA, stationB, new Date(), new Date()));
         connections.add(new Connection(train1, stationB, stationC, new Date(), new Date()));
@@ -30,6 +31,8 @@ public class Main {
         System.out.println("Testing shortest path algorithm...");
         graph.shortestPath(stationA);
 
-        LoginMenu lm = new LoginMenu();
+        LoginMenu lm = new LoginMenu(graph);
+
+        //GridMap map = new GridMap(graph.getStations());
     }
 }
