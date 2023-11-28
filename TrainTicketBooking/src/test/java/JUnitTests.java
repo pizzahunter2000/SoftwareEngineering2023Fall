@@ -1,5 +1,4 @@
 import model.*;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +17,7 @@ public class JUnitTests {
     Graph network1;
     Graph network2;
     Point coordA, coordB, coordC;
+    DiscountList discountList;
 
     @BeforeEach
     void setUp(){
@@ -35,6 +35,9 @@ public class JUnitTests {
 
         network1 = new Graph(new HashMap<>()); // empty graph
         network2 = new Graph(connections); // connected graph
+
+        discountList = new DiscountList();
+        discountList.addDiscount("Student", 20.0);
     }
 
     /**
@@ -89,5 +92,20 @@ public class JUnitTests {
         assert network2.getAdjList() != null;
         assert network2.getAdjList().get(stationB) != null;
         assert(network2.getAdjList().get(stationB).size() == 3);
+    }
+
+    @Test
+    void testCalculatePriceWithoutDiscount(){
+        assert(network2.calculatePrice(stationA, stationC, "", 1, discountList) == 5);
+    }
+
+    @Test
+    void testCalculatePriceWithoutDiscount2(){
+        assert(network2.calculatePrice(stationA, stationC, "", 2, discountList) == 10);
+    }
+
+    @Test
+    void testCalculatePriceWithDiscount(){
+        assert(network2.calculatePrice(stationA, stationC, "Student", 2, discountList) == 8);
     }
 }

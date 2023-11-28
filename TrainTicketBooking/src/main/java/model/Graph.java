@@ -137,6 +137,17 @@ public class Graph {
         return spanningTree;
     }
 
+    public double calculateTripDistance(Station source, Station destination) {
+        Map<Station, Double> distances = shortestPath(source);
+        return distances.get(destination);
+    }
+
+    public double calculatePrice(Station source, Station destination,
+                                 String discountName, double pricePerKm, DiscountList discountList){
+        double distance = calculateTripDistance(source, destination);
+        return distance * pricePerKm * (100 - discountList.getDiscount(discountName)) / 100;
+    }
+
     @Override
     public String toString() {
         String text = "";
