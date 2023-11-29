@@ -74,9 +74,10 @@ public class UserMenu extends JFrame{
                 // Get selected options from the dropdown menus
                 String startingStation = (String) startingStationComboBox.getSelectedItem();
                 String destinationStation = (String) destinationStationComboBox.getSelectedItem();
+                dispose();
 
                 // Create RoutesMenu window with the selected options
-                new RoutesMenu(startingStation, destinationStation);
+                new RoutesMenu(startingStation, destinationStation, graph);
             }
         });
         mainPanel.add(findRoutesButton, gbc);
