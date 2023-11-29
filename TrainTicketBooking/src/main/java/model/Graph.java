@@ -141,10 +141,10 @@ public class Graph {
         queue.add(new Pair(0, sourceStation));
 
         while(!queue.isEmpty()){
-            for (Pair pair : queue){
-                System.out.print(pair.getStation().getName());
-            }
-            System.out.println();
+//            for (Pair pair : queue){
+//                System.out.print(pair.getStation().getName());
+//            }
+//            System.out.println();
             Pair top = queue.poll();
             if(adjList.containsKey(top.getStation())){
                 for(Pair pair : adjList.get(top.getStation())){
@@ -153,8 +153,8 @@ public class Graph {
                             + pair.getDistance()){
                         double temp = distances.get(top.getStation()) + pair.getDistance();
                         distances.replace(pair.getStation(), temp);
-                        System.out.println(distances.get(top.getStation()) + " " + pair.getDistance());
-                        System.out.println(pair.getStation().getName() + temp);
+//                        System.out.println(distances.get(top.getStation()) + " " + pair.getDistance());
+//                        System.out.println(pair.getStation().getName() + temp);
                         spanningTree.addConnection(new Connection(new Train(), pair.getStation(),
                                 top.getStation(), new Date(), new Date(), temp));
                         queue.add(new Pair(distances.get(pair.getStation()), pair.getStation()));
@@ -163,13 +163,28 @@ public class Graph {
             }
         }
 
-        System.out.println("Distance from source station");
-        for(Map.Entry<Station, Double> distance : distances.entrySet()){
-            System.out.println(distance.getKey().getName() + ": " + distance.getValue());
-        }
-        System.out.println("Spanning tree from station: " + sourceStation.getName());
-        System.out.println(spanningTree);
+//        System.out.println("Distance from source station");
+//        for(Map.Entry<Station, Double> distance : distances.entrySet()){
+//            System.out.println(distance.getKey().getName() + ": " + distance.getValue());
+//        }
+//        System.out.println("Spanning tree from station: " + sourceStation.getName());
+//        System.out.println(spanningTree);
         return spanningTree;
+    }
+
+    public List<Station> shortestPathList(Station source, Station destination){
+        Graph inverseSpanningTree = shortestPath(source);
+        Station currentStation = destination;
+        List<Station> stations = new ArrayList<>();
+        while(!currentStation.equals(source)){
+            stations.add(currentStation);
+            currentStation = inverseSpanningTree.getAdjList().get(currentStation).get(0).getStation();
+        }
+        stations.add(currentStation);
+        for(Station station : stations){
+            System.out.println(station.getName());
+        }
+        return stations;
     }
 
     public double calculateTripDistance(Station source, Station destination) {

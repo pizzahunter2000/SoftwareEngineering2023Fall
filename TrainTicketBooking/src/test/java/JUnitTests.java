@@ -110,6 +110,7 @@ public class JUnitTests {
 
     @Test
     void testCalculatePriceWithDiscount(){
+        List<Station> stations = network2.shortestPathList(stationA, stationD);
         assert(network2.calculatePrice(stationA, stationC, "Student", 2, discountList) == 8);
     }
 }
