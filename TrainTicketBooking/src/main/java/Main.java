@@ -24,6 +24,28 @@ public class Main {
         connections.add(new Connection(train1, stationA, stationB, new Date(), new Date()));
         connections.add(new Connection(train1, stationB, stationC, new Date(), new Date()));
         connections.add(new Connection(train2, stationA, stationC, new Date(), new Date()));
+
+
+        // Hardcoded additional stations and connections
+        Station stationD = new Station(new Point(6, 4), "D");
+        stationList.add(stationD);
+        connections.add(new Connection(train2, stationC, stationD, new Date(), new Date()));
+
+        Station stationE = new Station(new Point(5, 5), "E");
+        stationList.add(stationE);
+        connections.add(new Connection(train1, stationA, stationE, new Date(), new Date()));
+
+        Station stationF = new Station(new Point(2, 3), "F");
+        stationList.add(stationF);
+        connections.add(new Connection(train2, stationD, stationF, new Date(), new Date()));
+
+        Station stationG = new Station(new Point(9, 8), "G");
+        stationList.add(stationG);
+        connections.add(new Connection(train1, stationE, stationG, new Date(), new Date()));
+
+
+
+
         Graph graph = new Graph(connections);
         System.out.println("Testing translation to graph...");
         System.out.println(graph);
@@ -33,6 +55,9 @@ public class Main {
 
         LoginMenu lm = new LoginMenu(graph);
 
-        //GridMap map = new GridMap(graph.getStations());
+        //
+        //
+        // GridMap map = new GridMap(graph);
+
     }
 }

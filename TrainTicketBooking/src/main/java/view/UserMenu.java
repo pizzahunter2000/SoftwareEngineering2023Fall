@@ -77,7 +77,7 @@ public class UserMenu extends JFrame{
                 dispose();
 
                 // Create RoutesMenu window with the selected options
-                new RoutesMenu(startingStation, destinationStation, graph);
+                new RoutesMenu( graph);
             }
         });
         mainPanel.add(findRoutesButton, gbc);
