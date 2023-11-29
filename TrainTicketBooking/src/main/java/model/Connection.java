@@ -23,6 +23,17 @@ public class Connection {
         this.distance = calculateDistance();
     }
 
+    public Connection(Train train, Station station, Station nextStation,
+                      Date departureDate, Date arrivalDate, Double distance) {
+        this.id = ++MAX_ID;
+        this.train = train;
+        this.station = station;
+        this.nextStation = nextStation;
+        this.departureDate = departureDate;
+        this.arrivalDate = arrivalDate;
+        this.distance = distance;
+    }
+
     public int getId() {
         return id;
     }

@@ -43,6 +43,17 @@ public class Graph {
         this.adjList = adjList;
     }
 
+    public double calculateDistance(Station source, Station destination){
+        List<Pair> pairs = adjList.get(source);
+        Double distance;
+        for(Pair pair : pairs){
+            if(pair.getStation().equals(destination)){
+                return pair.getDistance();
+            }
+        }
+        return -1;
+    }
+
     public List<Station> getStations(List<Connection> connections){
         List<Station> stations = new ArrayList<>();
         for(Connection connection : connections){
@@ -67,6 +78,21 @@ public class Graph {
         return stations;
     }
 
+    public List<Connection> getConnections() {
+        List<Connection> connections = new ArrayList<>();
+        for(Map.Entry<Station, List<Pair>> entry : adjList.entrySet()){
+            Station stationFrom = entry.getKey();
+            Station stationTo = null;
+            for(Pair pair : entry.getValue()){
+                stationTo = pair.getStation();
+            }
+            Connection connection = new Connection(new Train(), stationFrom, stationTo,
+                    new Date(), new Date());
+            connections.add(connection);
+        }
+        return connections;
+    }
+
     /**
      * Used by the admin to add a new connection.
      * @param connection - give connection to add to the network
@@ -75,36 +101,37 @@ public class Graph {
         if(adjList == null) {
             adjList = new HashMap<>();
             List<Pair> stationsPair = new ArrayList<>();
-            stationsPair.add(new Pair(connection.calculateDistance(), connection.getNextStation()));
+            stationsPair.add(new Pair(connection.getDistance(), connection.getNextStation()));
             adjList.put(connection.getStation(), stationsPair);
             return;
         }
         if(adjList.isEmpty()) {
             List<Pair> stationsPair = new ArrayList<>();
-            stationsPair.add(new Pair(connection.calculateDistance(), connection.getNextStation()));
+            stationsPair.add(new Pair(connection.getDistance(), connection.getNextStation()));
             adjList.put(connection.getStation(), stationsPair);
             return;
         }
         if(adjList.get(connection.getStation()) == null) {
             List<Pair> stationsPair = new ArrayList<>();
-            stationsPair.add(new Pair(connection.calculateDistance(), connection.getNextStation()));
+            stationsPair.add(new Pair(connection.getDistance(), connection.getNextStation()));
             adjList.put(connection.getStation(), stationsPair);
             return;
         }
-        adjList.get(connection.getStation()).add(new Pair(connection.calculateDistance(),
+        adjList.get(connection.getStation()).add(new Pair(connection.getDistance(),
                 connection.getNextStation()));
     }
 
     // returns a map of station and a distance from the source
     // using the Dijkstra shortest path algorithm, where the
     // stations are the node and the connections are the edges.
-    public Map<Station, Double> shortestPath(Station sourceStation){
+    public Graph shortestPath(Station sourceStation){
         Set<Station> stations = getStations();
-        Map<Station, Double> spanningTree = new HashMap<>();
+        Map<Station, Double> distances = new HashMap<>();
+        Graph spanningTree = new Graph(new HashMap<>());
         for(Station station : stations){
-            spanningTree.put(station, Double.MAX_VALUE);
+            distances.put(station, Double.MAX_VALUE);
             if(station.equals(sourceStation)){
-                spanningTree.replace(station, 0.0);
+                distances.replace(station, 0.0);
             }
         }
 
@@ -114,32 +141,40 @@ public class Graph {
         queue.add(new Pair(0, sourceStation));
 
         while(!queue.isEmpty()){
+            for (Pair pair : queue){
+                System.out.print(pair.getStation().getName());
+            }
+            System.out.println();
             Pair top = queue.poll();
             if(adjList.containsKey(top.getStation())){
                 for(Pair pair : adjList.get(top.getStation())){
                     // just works, simply lovely
-                    if(spanningTree.get(pair.getStation()) > spanningTree.get(top.getStation())
+                    if(distances.get(pair.getStation()) > distances.get(top.getStation())
                             + pair.getDistance()){
-                        spanningTree.replace(pair.getStation(), spanningTree.get(top.getStation())
-                                + pair.getDistance());
-                        queue.add(new Pair(spanningTree.get(pair.getStation()),
-                                pair.getStation()));
+                        double temp = distances.get(top.getStation()) + pair.getDistance();
+                        distances.replace(pair.getStation(), temp);
+                        System.out.println(distances.get(top.getStation()) + " " + pair.getDistance());
+                        System.out.println(pair.getStation().getName() + temp);
+                        spanningTree.addConnection(new Connection(new Train(), pair.getStation(),
+                                top.getStation(), new Date(), new Date(), temp));
+                        queue.add(new Pair(distances.get(pair.getStation()), pair.getStation()));
                     }
                 }
             }
         }
 
         System.out.println("Distance from source station");
-        for(Map.Entry<Station, Double> distances : spanningTree.entrySet()){
-            System.out.println(distances.getKey().getName() + ": " + distances.getValue());
+        for(Map.Entry<Station, Double> distance : distances.entrySet()){
+            System.out.println(distance.getKey().getName() + ": " + distance.getValue());
         }
-
+        System.out.println("Spanning tree from station: " + sourceStation.getName());
+        System.out.println(spanningTree);
         return spanningTree;
     }
 
     public double calculateTripDistance(Station source, Station destination) {
-        Map<Station, Double> distances = shortestPath(source);
-        return distances.get(destination);
+        Graph distances = shortestPath(source);
+        return distances.calculateDistance(destination, source);
     }
 
     public double calculatePrice(Station source, Station destination,
@@ -155,8 +190,11 @@ public class Graph {
             text = text.concat(stations.getKey().getName());
             text = text.concat(": ");
             for(Pair pair : stations.getValue()){
+                text = text.concat("(");
                 text = text.concat(pair.getStation().getName());
                 text = text.concat(",");
+                text = text.concat(Double.toString(pair.getDistance()));
+                text = text.concat(") ");
             }
             text = text.concat("\n");
         }

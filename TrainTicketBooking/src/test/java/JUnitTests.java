@@ -14,9 +14,10 @@ public class JUnitTests {
     Station stationA;
     Station stationB;
     Station stationC;
+    Station stationD;
     Graph network1;
     Graph network2;
-    Point coordA, coordB, coordC;
+    Point coordA, coordB, coordC, coordD;
     DiscountList discountList;
 
     @BeforeEach
@@ -24,14 +25,17 @@ public class JUnitTests {
         coordA = new Point(1.0, 2.0);
         coordB = new Point(4.0, 2.0);
         coordC = new Point(4.0, 6.0);
+        coordD = new Point(7.0, 10.0);
         stationA = new Station(coordA, "A");
         stationB = new Station(coordB, "B");
         stationC = new Station(coordC, "C");
+        stationD = new Station(coordD, "D");
         connections.add(new Connection(train1, stationA, stationB, new Date(), new Date()));
         connections.add(new Connection(train1, stationB, stationC, new Date(), new Date()));
         connections.add(new Connection(train2, stationA, stationC, new Date(), new Date()));
         connections.add(new Connection(train2, stationC, stationB, new Date(), new Date()));
         connections.add(new Connection(train2, stationB, stationA, new Date(), new Date()));
+        connections.add(new Connection(train1, stationC, stationD, new Date(), new Date()));
 
         network1 = new Graph(new HashMap<>()); // empty graph
         network2 = new Graph(connections); // connected graph
@@ -50,7 +54,7 @@ public class JUnitTests {
 
     @Test
     void testCalculateDistance1(){
-        assert(connections.get(2).calculateDistance() == 5);
+        assert(connections.get(5).calculateDistance() == 5);
     }
 
     @Test
@@ -80,7 +84,7 @@ public class JUnitTests {
         network2.addConnection(new Connection(train1, stationC, stationA, new Date(), new Date()));
         assert network2.getAdjList() != null;
         assert network2.getAdjList().get(stationC) != null;
-        assert(network2.getAdjList().get(stationC).size() == 2);
+        assert(network2.getAdjList().get(stationC).size() == 3);
     }
 
     /**
