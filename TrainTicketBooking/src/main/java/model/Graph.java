@@ -176,8 +176,18 @@ public class Graph {
         Graph inverseSpanningTree = shortestPath(source);
         Station currentStation = destination;
         List<Station> stations = new ArrayList<>();
+        // TODO : raise exception here
+        if(inverseSpanningTree == null){
+            stations.add(currentStation);
+            return stations;
+        }
         while(!currentStation.equals(source)){
             stations.add(currentStation);
+            System.out.println(inverseSpanningTree.getAdjList());
+            // TODO : raise exception here
+            if(inverseSpanningTree.getAdjList().get(currentStation) == null){
+                return stations;
+            }
             currentStation = inverseSpanningTree.getAdjList().get(currentStation).get(0).getStation();
         }
         stations.add(currentStation);
