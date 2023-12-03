@@ -23,10 +23,13 @@ public class GridMap extends JFrame {
     private static final int GRID_SIZE = 20;
     private Color[][] gridColors;
 
-    private Point lineStart = new Point(1, 5);
-    private Point lineEnd = new Point(10, 2);
+    private Station start;
+    private Station end;
 
-    public GridMap(Graph graph) {
+
+    public GridMap(Graph graph, Station start, Station end) {
+        this.start = start;
+        this.end =end;
         this.graph = graph;
 
         this.stationList = graph.getStations();
@@ -87,7 +90,7 @@ public class GridMap extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Handle the logic to return to the RoutesMenu
                 dispose(); // Close the current window
-                new RoutesMenu(graph); // Open the RoutesMenu
+                new RoutesMenu(graph, start, end); // Open the RoutesMenu
             }
         });
 

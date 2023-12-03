@@ -53,6 +53,10 @@ public class Main {
         System.out.println("Testing shortest path algorithm...");
         graph.shortestPath(stationA);
 
+        List <Station> path = graph.shortestPathList(stationA,stationF);
+        for(Station iter : path)
+            System.out.println(iter.getName() + " -> ");
+
         LoginMenu lm = new LoginMenu(graph);
 
         //

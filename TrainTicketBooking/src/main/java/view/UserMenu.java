@@ -45,8 +45,9 @@ public class UserMenu extends JFrame{
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Create JComboBox for starting station
-        JComboBox<String> startingStationComboBox = new JComboBox<>(getStationNames(stationList));
+        // Update the JComboBox declaration to use Station objects
+        JComboBox<Station> startingStationComboBox = new JComboBox<>(getStationArray(stationList));
+        startingStationComboBox.setRenderer(new StationListCellRenderer());
         mainPanel.add(new JLabel("Select Starting Station:"), gbc);
 
         gbc.gridx = 1;
@@ -54,8 +55,9 @@ public class UserMenu extends JFrame{
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        // Create JComboBox for destination station
-        JComboBox<String> destinationStationComboBox = new JComboBox<>(getStationNames(stationList));
+        // Update the JComboBox declaration for destination station
+        JComboBox<Station> destinationStationComboBox = new JComboBox<>(getStationArray(stationList));
+        destinationStationComboBox.setRenderer(new StationListCellRenderer());
         mainPanel.add(new JLabel("Select Destination Station:"), gbc);
 
         gbc.gridx = 1;
@@ -72,12 +74,13 @@ public class UserMenu extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Get selected options from the dropdown menus
-                String startingStation = (String) startingStationComboBox.getSelectedItem();
-                String destinationStation = (String) destinationStationComboBox.getSelectedItem();
+                Station startingStation = (Station) startingStationComboBox.getSelectedItem();
+                Station destinationStation = (Station) destinationStationComboBox.getSelectedItem();
                 dispose();
 
                 // Create RoutesMenu window with the selected options
-                new RoutesMenu( graph);
+                System.out.println("We got " + startingStation.getName() + " and " + destinationStation.getName());
+                new RoutesMenu( graph, startingStation, destinationStation);
             }
         });
         mainPanel.add(findRoutesButton, gbc);
@@ -105,14 +108,22 @@ public class UserMenu extends JFrame{
 
     }
 
-    private String[] getStationNames(Set<Station> stationList) {
-        String[] names = new String[stationList.size()];
-        int i=0;
-        for (Station iter : stationList) {
-            names[i] = iter.getName();
-            i++;
+    // Custom renderer class so that
+    // It the JComboBox displays only the name of the Station
+    // But the selection is of class Station
+    class StationListCellRenderer extends DefaultListCellRenderer {
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (value instanceof Station) {
+                value = ((Station) value).getName(); // Display only the name
+            }
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
-        return names;
+    }
+
+    // Modify the getStationNames method to return an array of Station objects
+    private Station[] getStationArray(Set<Station> stationList) {
+        return stationList.toArray(new Station[0]);
     }
 
 }

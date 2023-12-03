@@ -1,14 +1,24 @@
 package view;
 
 import model.Graph;
+import model.Station;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.List;
 public class RoutesMenu extends JFrame {
-    public RoutesMenu( Graph graph) {
+
+    private Station start;
+    private Station end;
+
+    private List <Station> path;
+    public RoutesMenu( Graph graph, Station start, Station end ){
+        this.start= start;
+        this.end = end;
+        this.path = graph.shortestPathList(start,end);
         setTitle("Routes Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -18,8 +28,10 @@ public class RoutesMenu extends JFrame {
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
 
+       // int n = path.getItemCount();
+
         // Display selected options in a label
-        JLabel label = new JLabel("Selected Routes: ");
+        JLabel label = new JLabel("Selected Routes: from " + start.getName() + " to  " + end.getName() + "  "  ) ;
         mainPanel.add(label, gbc);
 
         // See Map Button
@@ -31,7 +43,7 @@ public class RoutesMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Handle the logic to create a GridMap window
                 dispose(); // Close the current window
-                new GridMap(graph); // Open the GridMap window
+                new GridMap(graph, start, end); // Open the GridMap window
             }
         });
         mainPanel.add(seeMapButton, gbc);
