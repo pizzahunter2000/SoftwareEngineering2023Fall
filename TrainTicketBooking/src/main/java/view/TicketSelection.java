@@ -52,7 +52,7 @@ public class TicketSelection extends JFrame {
         gbc.gridwidth=2;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        priceLabel = new JLabel("Price of one normal ticket for the selected trip: $" + pricePerKM*graph.calculateDistance(start,end)); // Initialize the label
+        priceLabel = new JLabel("Price of one normal ticket for the selected trip: " + pricePerKM*graph.calculateTripDistance(start,end)); // Initialize the label
         // Add the price label at the top
         mainPanel.add(priceLabel, gbc);
 
