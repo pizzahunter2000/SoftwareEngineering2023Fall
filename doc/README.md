@@ -4,8 +4,8 @@
 1. Description
 2. Requirements
 
-## 1. Descripition
-This Java app simulates a ticket webshop of a train company. The user can search train connections from one station to another and receives a selection of possible travel itinaries.
+## 1. Description
+This Java app simulates a ticket webshop of a train company. The user can search train connections from one station to another and receives a selection of possible travel itineraries.
 
 The user can choose from the routes and place an order to buy the specific ticket. They have the option to introduce a discount and the app calculates the ticket's price according to the length of the route (in distance) and the discount.
 
@@ -68,3 +68,33 @@ To design the view of the app, the Java Swing library was used. The _view_ packa
  - RoutesMenu: this window shows you the computed path for the departure and arrival stations that were previously selected. It also contains a button for showing the map of the stations with the connections, a button for moving on to the ticket selecting window and one to go back to selecting departure and arrival stations. 
  - GridMap: This window displays, in the format of a grid, the map of the train stations, represented by the colored squares, with the connections between them, represented by the lines connecting the squares. The computed path is highlighted in the following way: The starting point is colored green, the ending point is colored red and the connections and stations in between them are blue. The window also has a button to return to the RoutesMenu.
  - TicketSelection: this window lets you choose different tickets for your selected route and displays the total that you'd have to pay for the order. You can set the number of tickets and the discount type. This window also features a button that returns you to the UserMenu window. 
+
+## 4. Testing
+
+#### For unit testing we have used JUnit framework for Java and written tests for the following functions:
+- calculating distance
+    - both coordinates increase
+    - both coordinates decrease
+    - one decreases one increases
+- adding connection - by looking at the length of the adjacency list
+    - to an empty graph
+    - to a non-empty graph, a new connection
+    - to a non-empty graph, a duplicate connection
+- calculating price
+    - varying price/km between the first 2 tests
+    - adding discount for the 3rd test
+
+## 5. Bibliography
+
+Algorithm (Dijkstra's shortest path): https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-in-java-using-priorityqueue/
+
+JUnit: https://junit.org/junit5/
+
+Java Swing: https://www.javatpoint.com/java-swing
+
+Documentation:
+
+https://www.markdownguide.org/basic-syntax/
+https://code.visualstudio.com/docs/languages/markdown
+
+Project on GitHub: https://github.com/pizzahunter2000/SoftwareEngineering2023Fall
