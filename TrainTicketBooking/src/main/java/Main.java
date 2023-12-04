@@ -23,7 +23,7 @@ public class Main {
         stationList.add(stationC);
         connections.add(new Connection(train1, stationA, stationB, new Date(), new Date()));
         connections.add(new Connection(train1, stationB, stationC, new Date(), new Date()));
-        connections.add(new Connection(train2, stationA, stationC, new Date(), new Date()));
+        //connections.add(new Connection(train2, stationA, stationC, new Date(), new Date()));
 
 
         // Hardcoded additional stations and connections

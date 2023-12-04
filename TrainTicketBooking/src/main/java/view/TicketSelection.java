@@ -28,7 +28,7 @@ public class TicketSelection extends JFrame {
 
     public TicketSelection(Graph graph, Station source, Station destination) {
         total = 0.0;
-        pricePerKM =  3.5;
+        pricePerKM =  1.0;
         this.start = source;
         this.end = destination;
         this.graph = graph;

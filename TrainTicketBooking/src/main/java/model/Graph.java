@@ -69,6 +69,39 @@ public class Graph {
         return -1;
     }
 
+    public double calculateDistanceMST(Graph graph, Station source, Station destination){
+        if(source.equals(destination)){
+            return 0;
+        }
+        if(destination == null){
+            System.out.println("u fauking eejit");
+            return -1;
+        }
+        Pair prev = new Pair(0, destination);
+        if(graph.getAdjList().get(prev.getStation()) == null){
+            return -1;
+        }
+        Pair pair = graph.getAdjList().get(prev.getStation()).get(0);
+        if(pair == null){
+            return -1;
+        }
+        Double distance = 0.0;
+        while(!pair.getStation().equals(source)){
+            distance += this.calculateDistance(pair.getStation(), prev.getStation());
+            prev = pair;
+            if(graph.getAdjList().get(prev.getStation()) == null){
+                return -1;
+            }
+            pair = graph.getAdjList().get(pair.getStation()).get(0);
+            if(pair == null || prev == null){
+                System.out.println("u fauking eejit");
+                return -1;
+            }
+        }
+        distance += this.calculateDistance(pair.getStation(), prev.getStation());
+        return distance;
+    }
+
     public List<Station> getStations(List<Connection> connections){
         List<Station> stations = new ArrayList<>();
         for(Connection connection : connections){
@@ -214,7 +247,7 @@ public class Graph {
 
     public double calculateTripDistance(Station source, Station destination) {
         Graph distances = shortestPath(source);
-        return distances.calculateDistance(destination, source);
+        return this.calculateDistanceMST(distances, source, destination);
     }
 
     public double calculatePrice(Station source, Station destination,
