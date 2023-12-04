@@ -47,6 +47,15 @@ public class Main {
 
 
         Graph graph = new Graph(connections);
+
+        DiscountList dl = new DiscountList();
+        dl.addDiscount("Normal", 0.00);
+        dl.addDiscount("Student", 50.0);
+        dl.addDiscount("Child", 70.0);
+        dl.addDiscount("Elder", 25.00);
+
+        graph.setDiscountList(dl);
+
         System.out.println("Testing translation to graph...");
         System.out.println(graph);
 

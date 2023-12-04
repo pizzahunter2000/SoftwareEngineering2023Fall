@@ -1,5 +1,6 @@
 package view;
 
+import model.DiscountList;
 import model.Graph;
 import model.Station;
 
@@ -21,8 +22,11 @@ public class TicketSelection extends JFrame {
     private Station end;
     private double total;
 
+    private double pricePerKM ;
+
     public TicketSelection(Graph graph, Station source, Station destination) {
         total = 0.0;
+        pricePerKM =  3.5;
         this.start = source;
         this.end = destination;
         this.graph = graph;
@@ -32,7 +36,8 @@ public class TicketSelection extends JFrame {
 
         // Components
         ticketsTextField = new JTextField();
-        discountDropdown = new JComboBox<>(new String[]{"No Discount", "Student Discount", "Senior Discount"});
+        discountDropdown = new JComboBox<>(graph.getDiscountList().getDiscounts().keySet().toArray(new String[0]));
+        discountDropdown.setRenderer(new DiscountListCellRenderer(graph.getDiscountList()));
         addToOrderButton = new JButton("Add to Order");
         totalTextField = new JTextField();
         payButton = new JButton("Pay");
@@ -67,7 +72,10 @@ public class TicketSelection extends JFrame {
         addToOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addToOrder();
+                String selectedDicount = (String) discountDropdown.getSelectedItem();
+                String amountString = ticketsTextField.getText();
+                int amount = Integer.parseInt(amountString);
+                addToOrder(amount, selectedDicount, start, end);
             }
         });
 
@@ -113,11 +121,11 @@ public class TicketSelection extends JFrame {
         setVisible(true);
     }
 
-    private void addToOrder() {
+    private void addToOrder(int amount, String discount, Station start, Station end) {
         // Add logic to handle adding tickets to the order
         // You can retrieve the values from ticketsTextField and discountDropdown
         // Update the totalTextField accordingly
-        total += 2.5;
+        total += amount * graph.calculatePrice(start, end,  discount, pricePerKM,  graph.getDiscountList());
         totalTextField.setText(String.format("%.2f", total));
     }
 
@@ -126,6 +134,26 @@ public class TicketSelection extends JFrame {
         // Display a message and exit the application
         JOptionPane.showMessageDialog(this, "Payment successful! Exiting application.");
         System.exit(0);
+    }
+
+    class DiscountListCellRenderer extends DefaultListCellRenderer {
+        private DiscountList discountList;
+
+        public DiscountListCellRenderer(DiscountList discountList) {
+            this.discountList = discountList;
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (value instanceof String) {
+                String discountName = (String) value;
+                Double discountAmount = discountList.getDiscount(discountName);
+
+                // Display both name and amount in the dropdown
+                value = discountName + " - " + discountAmount + " %";
+            }
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
     }
 
 

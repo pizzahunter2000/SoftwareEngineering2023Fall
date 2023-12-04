@@ -3,9 +3,22 @@ package model;
 import java.util.*;
 
 public class Graph {
+
     private int size;
     private Map<Station, List<Pair>> adjList;
 
+
+
+
+    private DiscountList discountList;
+
+    public void setDiscountList(DiscountList discountList) {
+        this.discountList = discountList;
+    }
+
+    public DiscountList getDiscountList() {
+        return discountList;
+    }
     public Graph(Map<Station, List<Pair>> adjList) {
         this.adjList = adjList;
     }
@@ -13,6 +26,8 @@ public class Graph {
     // In the Network class the railway system is in list and has
     // to be transformed into a graph for Dijkstra's algorithm to work.
     public Graph(List<Connection> connections){
+        this.discountList = new DiscountList();
+        discountList = null;
         adjList = new HashMap<>();
         for(Connection connection : connections){
             if(adjList.containsKey(connection.getStation())){

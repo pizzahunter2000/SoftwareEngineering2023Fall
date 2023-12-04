@@ -91,6 +91,8 @@ public class AdminMenu extends JFrame{
                         // Handle the logic to modify the discount
                         String selectedDiscount = (String) discountComboBox.getSelectedItem();
                         String newDiscount = newDiscountTextField.getText();
+                        double newAmount = Double.parseDouble(newDiscount);
+                        graph.getDiscountList().addDiscount(selectedDiscount,newAmount);
                         // Modify discount logic
 
                         JOptionPane.showMessageDialog(null, "Discount Modified Successfully");
