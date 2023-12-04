@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Set;
 
 public class AdminMenu extends JFrame{
+    private JComboBox<String> discountDropdown;
 
         //private Map<String, List<Pair>> adjList; // Assuming this is your adjacency list
             Graph graph;
@@ -67,9 +68,10 @@ public class AdminMenu extends JFrame{
                 mainPanel.add(new JLabel("List of Discounts:"), gbc);
 
                 // Dropdown menu for a list of discounts
-                JComboBox<String> discountComboBox = new JComboBox<>(getDiscountOptions());
+                discountDropdown = new JComboBox<>(graph.getDiscountList().getDiscounts().keySet().toArray(new String[0]));
+                discountDropdown.setRenderer(new AdminMenu.DiscountListCellRenderer(graph.getDiscountList()));
                 gbc.gridx = 1;
-                mainPanel.add(discountComboBox, gbc);
+                mainPanel.add(discountDropdown, gbc);
 
                 gbc.gridx = 0;
                 gbc.gridy = 4;
@@ -89,7 +91,7 @@ public class AdminMenu extends JFrame{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // Handle the logic to modify the discount
-                        String selectedDiscount = (String) discountComboBox.getSelectedItem();
+                        String selectedDiscount = (String) discountDropdown.getSelectedItem();
                         String newDiscount = newDiscountTextField.getText();
                         double newAmount = Double.parseDouble(newDiscount);
                         graph.getDiscountList().addDiscount(selectedDiscount,newAmount);
@@ -133,11 +135,6 @@ public class AdminMenu extends JFrame{
         return names;
     }
 
-    private String[] getDiscountOptions() {
-        // Provide logic to get discount options
-        // For now, using dummy data
-        return new String[]{"Discount 1", "Discount 2", "Discount 3"};
-    }
 
     class StationListCellRenderer extends DefaultListCellRenderer {
         @Override
@@ -150,11 +147,20 @@ public class AdminMenu extends JFrame{
     }
 
     class DiscountListCellRenderer extends DefaultListCellRenderer {
+        private DiscountList discountList;
+
+        public DiscountListCellRenderer(DiscountList discountList) {
+            this.discountList = discountList;
+        }
 
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             if (value instanceof String) {
-                value = (String) value; // Display only the name
+                String discountName = (String) value;
+                Double discountAmount = discountList.getDiscount(discountName);
+
+                // Display both name and amount in the dropdown
+                value = discountName + " - " + discountAmount + " %";
             }
             return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
