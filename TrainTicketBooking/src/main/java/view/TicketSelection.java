@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 public class TicketSelection extends JFrame {
 
     private JTextField ticketsTextField;
+
+    private JLabel priceLabel; // New JLabel for displaying the price of one normal ticket
     private JComboBox<String> discountDropdown;
     private JButton addToOrderButton;
     private JTextField totalTextField;
@@ -32,7 +34,7 @@ public class TicketSelection extends JFrame {
         this.graph = graph;
         setTitle("Ticket Selection");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(400, 400);
 
         // Components
         ticketsTextField = new JTextField();
@@ -47,7 +49,16 @@ public class TicketSelection extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth=2;
         gbc.insets = new Insets(10, 10, 10, 10);
+
+        priceLabel = new JLabel("Price of one normal ticket for the selected trip: $" + pricePerKM*graph.calculateDistance(start,end)); // Initialize the label
+        // Add the price label at the top
+        mainPanel.add(priceLabel, gbc);
+
+        gbc.gridwidth=1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
 
         mainPanel.add(new JLabel("Number of Tickets:"), gbc);
         gbc.gridx = 1;
@@ -56,7 +67,7 @@ public class TicketSelection extends JFrame {
         mainPanel.add(ticketsTextField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.weightx = 0.0; // Reset weightx for other components
         gbc.fill = GridBagConstraints.NONE; // Reset fill for other components
         mainPanel.add(new JLabel("Discount Type:"), gbc);
@@ -66,7 +77,7 @@ public class TicketSelection extends JFrame {
         mainPanel.add(discountDropdown, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.gridwidth = 2;
         mainPanel.add(addToOrderButton, gbc);
         addToOrderButton.addActionListener(new ActionListener() {
@@ -80,7 +91,7 @@ public class TicketSelection extends JFrame {
         });
 
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridwidth = 1;
         mainPanel.add(new JLabel("Total:"), gbc);
         gbc.gridx = 1;
@@ -89,7 +100,7 @@ public class TicketSelection extends JFrame {
         mainPanel.add(totalTextField, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.gridwidth = 2;
         mainPanel.add(payButton, gbc);
         payButton.addActionListener(new ActionListener() {
