@@ -1,11 +1,11 @@
 package view;
-import model.Graph;
-import model.Station;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Set;
 
 public class AdminMenu extends JFrame{
@@ -26,8 +26,10 @@ public class AdminMenu extends JFrame{
                 gbc.insets = new Insets(10, 10, 10, 10);
 
                 // Dropdown menus for choosing the new connection
-                JComboBox<String> startStationComboBox = new JComboBox<>(getStationNames(graph.getStations()));
-                JComboBox<String> endStationComboBox = new JComboBox<>(getStationNames(graph.getStations()));
+                JComboBox<Station> startStationComboBox = new JComboBox<>(getStationArray(graph.getStations()));
+                startStationComboBox.setRenderer(new AdminMenu.StationListCellRenderer());
+                JComboBox<Station> endStationComboBox = new JComboBox<>(getStationArray(graph.getStations()));
+                endStationComboBox.setRenderer(new AdminMenu.StationListCellRenderer());
                 mainPanel.add(new JLabel("Start Station:"), gbc);
 
                 gbc.gridx = 1;
@@ -48,8 +50,12 @@ public class AdminMenu extends JFrame{
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // Handle the logic to add a new connection
-                        String startStation = (String) startStationComboBox.getSelectedItem();
-                        String endStation = (String) endStationComboBox.getSelectedItem();
+                        Station startStation = (Station) startStationComboBox.getSelectedItem();
+                        Station endStation = (Station) endStationComboBox.getSelectedItem();
+
+                        Train train3 = new Train();
+                        Connection newCon = new Connection(train3,startStation,endStation, new Date(), new Date());
+                        graph.addConnection(newCon);
                         // Add connection logic
                         JOptionPane.showMessageDialog(null, "Connection Added Successfully");
                     }
@@ -86,6 +92,7 @@ public class AdminMenu extends JFrame{
                         String selectedDiscount = (String) discountComboBox.getSelectedItem();
                         String newDiscount = newDiscountTextField.getText();
                         // Modify discount logic
+
                         JOptionPane.showMessageDialog(null, "Discount Modified Successfully");
                     }
                 });
@@ -128,5 +135,29 @@ public class AdminMenu extends JFrame{
         // Provide logic to get discount options
         // For now, using dummy data
         return new String[]{"Discount 1", "Discount 2", "Discount 3"};
+    }
+
+    class StationListCellRenderer extends DefaultListCellRenderer {
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (value instanceof Station) {
+                value = ((Station) value).getName(); // Display only the name
+            }
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
+    }
+
+    class DiscountListCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            if (value instanceof String) {
+                value = (String) value; // Display only the name
+            }
+            return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
+    }
+    private Station[] getStationArray(Set<Station> stationList) {
+        return stationList.toArray(new Station[0]);
     }
 }

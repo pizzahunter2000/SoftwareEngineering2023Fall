@@ -75,7 +75,8 @@ public class RoutesMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Handle the logic to create a TicketSelection window
                 dispose(); // Close the current window
-                new TicketSelection(); // Open the TicketSelection window
+                // Calculate Price needs source and destination, so I have to send them as parameters to TicketSelection
+                new TicketSelection(graph, start,  end); // Open the TicketSelection window
             }
         });
         mainPanel.add(orderButton, gbc);
