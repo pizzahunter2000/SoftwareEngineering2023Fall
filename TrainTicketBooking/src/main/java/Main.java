@@ -35,7 +35,7 @@ public class Main {
         stationList.add(stationE);
         connections.add(new Connection(train1, stationA, stationE, new Date(), new Date()));
 
-        Station stationF = new Station(new Point(2, 3), "F");
+        Station stationF = new Station(new Point(9, 3), "F");
         stationList.add(stationF);
         connections.add(new Connection(train2, stationD, stationF, new Date(), new Date()));
 
@@ -55,7 +55,7 @@ public class Main {
 
         List <Station> path = graph.shortestPathList(stationA,stationF);
         for(Station iter : path)
-            System.out.println(iter.getName() + " -> ");
+            System.out.print(iter.getName() + " -> ");
 
         LoginMenu lm = new LoginMenu(graph);
 

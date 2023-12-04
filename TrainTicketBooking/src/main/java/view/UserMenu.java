@@ -19,19 +19,8 @@ public class UserMenu extends JFrame{
 
         this.graph= graph;
 
-        java.util.Set< Station > stationList = new HashSet<>();
-        java.util.List<Connection> connections = new ArrayList<>();
-        Train train1 = new Train();
-        Train train2 = new Train();
-        Point coordA = new model.Point(1.0, 2.0);
-        Point coordB = new model.Point(4.0, 2.0);
-        Point coordC = new Point(4.0, 6.0);
-        Station stationA = new Station(coordA, "A");
-        stationList.add(stationA);
-        Station stationB = new Station(coordB, "B");
-        stationList.add(stationB);
-        Station stationC = new Station(coordC, "C");
-        stationList.add(stationC);
+        java.util.Set< Station > stationList = graph.getStations();
+        java.util.List<Connection> connections = graph.getConnections();
 
 
         setTitle("User Menu");

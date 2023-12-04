@@ -15,10 +15,16 @@ public class RoutesMenu extends JFrame {
     private Station end;
 
     private List <Station> path;
-    public RoutesMenu( Graph graph, Station start, Station end ){
-        this.start= start;
-        this.end = end;
-        this.path = graph.shortestPathList(start,end);
+
+    private Graph graph;
+    public RoutesMenu( Graph graph, Station source, Station destination ){
+        this.start = source;
+        this.end = destination;
+        this.graph = graph;
+        graph.shortestPath(start);
+        this.path = graph.shortestPathList(start, end);
+
+
         setTitle("Routes Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -28,15 +34,28 @@ public class RoutesMenu extends JFrame {
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
 
-       // int n = path.getItemCount();
+        int n= path.size();
 
-        // Display selected options in a label
-        JLabel label = new JLabel("Selected Routes: from " + start.getName() + " to  " + end.getName() + "  "  ) ;
-        mainPanel.add(label, gbc);
+        StringBuilder pathStringBuilder = new StringBuilder(path.get(n-1).getName());
+        for (int i = n-2; i >= 0; i--) {
+            pathStringBuilder.append("->").append(path.get(i).getName());
+        }
+
+        String pathString = pathStringBuilder.toString();
+
+        JLabel routeLabel = new JLabel("Selected Route: From " + start.getName() + " to " + end.getName());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        mainPanel.add(routeLabel, gbc);
+
+        // Display the path
+        JLabel pathLabel = new JLabel("Path: " + pathString);
+        gbc.gridy = 1;
+        mainPanel.add(pathLabel, gbc);
 
         // See Map Button
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         JButton seeMapButton = new JButton("See Map");
         seeMapButton.addActionListener(new ActionListener() {
             @Override

@@ -26,12 +26,14 @@ public class GridMap extends JFrame {
     private Station start;
     private Station end;
 
+    private List<Station> path;
+
 
     public GridMap(Graph graph, Station start, Station end) {
         this.start = start;
         this.end =end;
         this.graph = graph;
-
+        this.path = graph.shortestPathList(start,end);
         this.stationList = graph.getStations();
 
         setTitle("Grid Coloring Example with Line");
@@ -40,6 +42,7 @@ public class GridMap extends JFrame {
         gridColors = new Color[GRID_SIZE][GRID_SIZE];
         initializeGridColors();
         colorStations(stationList);
+
 
 
         JPanel gridPanel = new JPanel() {
@@ -59,6 +62,7 @@ public class GridMap extends JFrame {
                 }
 
                 drawConnections(g, squareSize);
+                colorPath (g,path, start, end);
 
 
 
@@ -69,19 +73,6 @@ public class GridMap extends JFrame {
             }
         };
 
-        gridPanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int squareSize = gridPanel.getWidth() / GRID_SIZE;
-                int x = e.getX() / squareSize;
-                int y = e.getY() / squareSize;
-
-                if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
-                    toggleColor(x, y);
-                    gridPanel.repaint();
-                }
-            }
-        });
 
         // Button to return to RoutesMenu
         JButton backToRoutesButton = new JButton("Back to Routes Menu");
@@ -114,13 +105,7 @@ public class GridMap extends JFrame {
         }
     }
 
-    private void toggleColor(int x, int y) {
-        if (gridColors[x][y].equals(Color.WHITE)) {
-            gridColors[x][y] = Color.BLUE; // Change color to blue
-        } else {
-            gridColors[x][y] = Color.WHITE; // Change color back to white
-        }
-    }
+
 
     private void colorStations(Set<Station> stationList) {
         int squareSize = getWidth() / GRID_SIZE;
@@ -135,14 +120,31 @@ public class GridMap extends JFrame {
         }
     }
 
-    private void drawLine( Point start, Point end, int squareSize) {
-        int startX = start.x * squareSize + squareSize / 2;
-        int startY = start.y * squareSize + squareSize / 2;
-        int endX = end.x * squareSize + squareSize / 2;
-        int endY = end.y * squareSize + squareSize / 2;
+    private void colorPath (Graphics g, List<Station> path, Station start, Station end)
+    {
 
-        //g.setColor(Color.RED);
-        //g.drawLine(startX, startY, endX, endY);
+
+        for (int i = 0; i < path.size() - 1; i++) {
+            Station currentStation = path.get(i);
+            Station nextStation = path.get(i + 1);
+
+            int currentX = 2 * (int) Math.floor(currentStation.getX());
+            int currentY = 2 * (int) Math.floor(currentStation.getY());
+
+            int nextX = 2 * (int) Math.floor(nextStation.getX());
+            int nextY = 2 * (int) Math.floor(nextStation.getY());
+
+            // Color the connection between consecutive stations in yellow
+            colorConnection(g,currentX, currentY, nextX, nextY, Color.BLUE);
+
+            if(i>0 || i != path.size()-2)
+            {
+                colorStation(g,currentStation.getX(),currentStation.getY(),Color.BLUE);
+            }
+        }
+        // Color the start and end stations in green
+        colorStation(g,start.getX(), start.getY(), Color.GREEN);
+        colorStation(g,end.getX(), end.getY(), Color.RED);
     }
 
     private void drawConnections(Graphics g, int squareSize) {
@@ -166,7 +168,7 @@ public class GridMap extends JFrame {
                 Point start = new Point(sourceX,sourceY);
                 Point end = new Point(destX,destY);
 
-                g2d.setColor(Color.BLUE);
+                g2d.setColor(Color.BLACK);
 
 
                 g2d.drawLine(
@@ -177,6 +179,31 @@ public class GridMap extends JFrame {
                 );
             }
         }
+    }
+
+    private void colorConnection(Graphics g, int startX, int startY, int endX, int endY, Color color) {
+        int squareSize = getWidth() / GRID_SIZE;
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(3)); // Set the stroke thickness to 3 pixels
+        g2d.setColor(color);
+
+        g2d.drawLine(
+                startX * squareSize ,
+                startY * squareSize ,
+                endX * squareSize ,
+                endY * squareSize
+        );
+    }
+
+    private void colorStation(Graphics g, double x, double y, Color color) {
+        int gridX = 2 * (int) Math.floor(x);
+        int gridY = 2 * (int) Math.floor(y);
+
+        if (gridX >= 0 && gridX < GRID_SIZE && gridY >= 0 && gridY < GRID_SIZE) {
+            gridColors[gridX][gridY] = color;
+        }
+        repaint();
     }
 
 }
